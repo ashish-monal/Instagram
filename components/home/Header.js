@@ -28,6 +28,9 @@ const Header = () => {
           />
         </TouchableOpacity>
         <TouchableOpacity>
+          <View style={styles.unreadBadge}>
+            <Text style={styles.unreadBadgeText}>11</Text>
+          </View>
           <FontAwesome5
             name="facebook-messenger"
             size={24}
@@ -58,6 +61,22 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 30,
+  },
+  unreadBadge: {
+    backgroundColor: "red",
+    position: "absolute",
+    left: 10,
+    bottom: 15,
+    width: 25,
+    height: 18,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 100,
+  },
+  unreadBadgeText: {
+    color: "white",
+    fontWeight: "600",
   },
 });
 export default Header;
