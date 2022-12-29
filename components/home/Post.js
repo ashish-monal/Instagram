@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Divider } from "react-native-elements";
 import React from "react";
-import { Entypo } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,6 +17,7 @@ const Post = ({ post }) => {
         <Likes post={post} />
         <Caption post={post} />
         <CommentSection post={post} />
+        <Comments post={post} />
       </View>
     </View>
   );
@@ -29,9 +30,7 @@ const PostHeader = ({ post }) => (
         source={{ uri: post.profile_picture }}
         style={styles.postHeaderImage}
       />
-      <Text style={{ color: "white", marginLeft: 5, fontWeight: "700" }}>
-        {post.user}
-      </Text>
+      <Text style={{ marginLeft: 5, fontWeight: "700" }}>{post.user}</Text>
     </View>
     <View>
       <Text style={{ color: "white", fontWeight: "900", marginRight: 10 }}>
@@ -51,18 +50,13 @@ const PostFooter = () => (
   <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
     <View style={styles.leftFooterIcon}>
       <TouchableOpacity>
-        <Entypo
-          name="heart-outlined"
-          size={30}
-          color="white"
-          style={styles.footerIcon}
-        />
+        <AntDesign name="hearto" size={30} color="black" />
       </TouchableOpacity>
       <TouchableOpacity>
         <Octicons
           name="comment"
           size={30}
-          color="white"
+          color="black"
           style={styles.footerIcon}
         />
       </TouchableOpacity>
@@ -70,7 +64,7 @@ const PostFooter = () => (
         <Feather
           name="send"
           size={30}
-          color="white"
+          color="black"
           style={styles.footerIcon}
         />
       </TouchableOpacity>
@@ -80,7 +74,7 @@ const PostFooter = () => (
         <Ionicons
           name="bookmark-outline"
           size={30}
-          color="white"
+          color="black"
           style={styles.footerIcon}
         />
       </TouchableOpacity>
@@ -90,15 +84,13 @@ const PostFooter = () => (
 
 const Likes = ({ post }) => (
   <View style={{ flexDirection: "row", marginTop: 4 }}>
-    <Text style={{ color: "white", fontWeight: "600" }}>
-      {post.likes} likes
-    </Text>
+    <Text style={{ fontWeight: "600" }}>{post.likes} likes</Text>
   </View>
 );
 
 const Caption = ({ post }) => (
   <View style={{ marginTop: 5 }}>
-    <Text style={{ color: "white" }}>
+    <Text>
       <Text style={{ fontWeight: "600" }}>{post.user} </Text>
       <Text>{post.caption}</Text>
     </Text>
@@ -107,13 +99,27 @@ const Caption = ({ post }) => (
 
 const CommentSection = ({ post }) => (
   <View style={{ marginTop: 5 }}>
-    <Text style={{ color: "gray" }}>
-      View {post.comments.length > 1 ? "all" : ""} {post.comments.length}{" "}
-      {post.comments.length > 1 ? "comments" : "comment"}
-    </Text>
+    {!!post.comments.length && (
+      <Text style={{ color: "gray" }}>
+        View {post.comments.length > 1 ? "all" : ""} {post.comments.length}{" "}
+        {post.comments.length > 1 ? "comments" : "comment"}
+      </Text>
+    )}
   </View>
 );
 
+const Comments = ({ post }) => (
+  <>
+    {post.comments.map((comment, index) => (
+      <View key={index} style={{ flexDirection: "row", marginTop: 5 }}>
+        <Text>
+          <Text style={{ fontWeight: "600" }}>{comment.user} </Text>
+          {comment.comment}
+        </Text>
+      </View>
+    ))}
+  </>
+);
 // Zero Comment donot render any components
 // 1 comment render component without all and singular comment
 // 2 comment render component with all and plural comments

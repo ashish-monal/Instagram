@@ -15,7 +15,7 @@ const Header = () => {
           <FontAwesome
             name="plus-square-o"
             size={24}
-            color="white"
+            color="black"
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -23,7 +23,7 @@ const Header = () => {
           <AntDesign
             name="hearto"
             size={24}
-            color="white"
+            color="black"
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -34,7 +34,7 @@ const Header = () => {
           <FontAwesome5
             name="facebook-messenger"
             size={24}
-            color="white"
+            color="black"
             style={styles.icon}
           />
         </TouchableOpacity>

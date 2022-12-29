@@ -9,7 +9,7 @@ const Stories = () => {
         {USERS.map((story, index) => (
           <View key={index} style={styles.storyConatiner}>
             <Image source={{ uri: story.image }} style={styles.story} />
-            <Text style={{ color: "white", marginTop: 5 }}>
+            <Text style={{ marginTop: 5 }}>
               {story.user.length > 11
                 ? story.user.slice(0, 10).toLowerCase() + "..."
                 : story.user.toLowerCase()}
