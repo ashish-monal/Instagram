@@ -3,7 +3,7 @@ import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-const Header = () => {
+const Header = ({ navigation }) => {
   return (
     <View style={styles.conatiner}>
       <TouchableOpacity>
@@ -11,7 +11,7 @@ const Header = () => {
       </TouchableOpacity>
 
       <View style={styles.iconContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push("NewPostScreen")}>
           <FontAwesome
             name="plus-square-o"
             size={24}
