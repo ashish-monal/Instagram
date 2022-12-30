@@ -11,21 +11,22 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Validator from "email-validator";
 
-const LoginForm = ({ navigation }) => {
-  const LoginFormSchema = Yup.object().shape({
-    email: Yup.string().email().required("An email is required"),
+const SignUpForm = ({ navigation }) => {
+  const SignupFormSchema = Yup.object().shape({
+    email: Yup.string().email().required("An Email is required"),
+    username: Yup.string().required().min(2, "A user name is required"),
     password: Yup.string()
       .required()
-      .min(6, "Your password has to have atleast 6 characters"),
+      .min(6, "Your password has to have at least 6 Character"),
   });
   return (
     <View style={styles.wrapper}>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "", username: "", password: "" }}
         onSubmit={(values) => {
           console.log(values);
         }}
-        validationSchema={LoginFormSchema}
+        validationSchema={SignupFormSchema}
         validateOnMount={true}
       >
         {({ handleChange, handleBlur, handleSubmit, values, isValid }) => (
@@ -58,6 +59,28 @@ const LoginForm = ({ navigation }) => {
                 styles.inputField,
                 {
                   borderColor:
+                    1 > values.username.length || values.username.length >= 2
+                      ? "#ccc"
+                      : "red",
+                },
+              ]}
+            >
+              <TextInput
+                placeholder="Username"
+                autoCapitalize="none"
+                textContentType="username"
+                autoFocus={false}
+                placeholderTextColor="#444"
+                onChangeText={handleChange("username")}
+                onBlur={handleBlur("username")}
+                value={values.username}
+              />
+            </View>
+            <View
+              style={[
+                styles.inputField,
+                {
+                  borderColor:
                     1 > values.password.length || values.password.length >= 6
                       ? "#ccc"
                       : "red",
@@ -76,19 +99,14 @@ const LoginForm = ({ navigation }) => {
                 value={values.password}
               />
             </View>
-            <View style={{ alignItems: "flex-end", marginBottom: 30 }}>
-              <Text style={{ color: "#6BB0F5", fontWeight: "700" }}>
-                Forgot Password?
-              </Text>
-            </View>
             <Pressable style={styles.button(isValid)} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Log In</Text>
+              <Text style={styles.buttonText}>Sign up </Text>
             </Pressable>
 
             <View style={styles.signupContainer}>
-              <Text>Don't have an account ?</Text>
-              <TouchableOpacity onPress={() => navigation.push("SignupScreen")}>
-                <Text style={styles.signupText}>Sign Up</Text>
+              <Text>Already have an account ?</Text>
+              <TouchableOpacity onPress={() => navigation.push("LoginScreen")}>
+                <Text style={styles.signupText}> Log in</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -98,9 +116,7 @@ const LoginForm = ({ navigation }) => {
   );
 };
 const styles = StyleSheet.create({
-  wrapper: {
-    marginTop: 80,
-  },
+  wrapper: { marginTop: 80 },
   inputField: {
     borderRadius: 5,
     padding: 12,
@@ -132,4 +148,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginForm;
+export default SignUpForm;

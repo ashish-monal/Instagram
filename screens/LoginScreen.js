@@ -3,12 +3,12 @@ import React from "react";
 import LoginForm from "../components/loginScreen/LoginForm";
 const Instagram_Logo =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png";
-const LoginScreen = () => (
+const LoginScreen = ({ navigation }) => (
   <View style={styles.container}>
     <View style={styles.logoContainer}>
       <Image source={{ uri: Instagram_Logo, height: 100, width: 100 }} />
     </View>
-    <LoginForm />
+    <LoginForm navigation={navigation} />
   </View>
 );
 const styles = StyleSheet.create({

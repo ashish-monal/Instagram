@@ -1,14 +1,16 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import React from "react";
+import SignUpForm from "../components/signupScreen/SignUpForm";
 
 const Instagram_Logo =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png";
 
-const SignUpScreen = () => (
+const SignUpScreen = ({ navigation }) => (
   <View style={styles.container}>
     <View style={styles.logoContainer}>
       <Image source={{ uri: Instagram_Logo, height: 100, width: 100 }} />
     </View>
+    <SignUpForm navigation={navigation} />
   </View>
 );
 
