@@ -7,7 +7,8 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import firebase from "../../firebase";
+import { firebase } from "../../firebase";
+import { db } from "../../firebase";
 import React, { useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";

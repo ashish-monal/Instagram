@@ -1,10 +1,13 @@
 import { View, Text, Image, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { Divider } from "react-native-elements";
 import { Button } from "react-native";
 import validUrl from "valid-url";
+import { db, firebase } from "../../firebase";
+import { doc } from "firebase/firestore/lite";
+
 const PlaceholderImage =
   "https://www.pngkey.com/png/detail/233-2332677_image-500580-placeholder-transparent.png";
 const uploadPostScheme = yup.object().shape({
@@ -14,13 +17,53 @@ const uploadPostScheme = yup.object().shape({
 
 const FormPostUploader = ({ navigation }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PlaceholderImage);
+  const [currentLoggedInUser, setCurrentLoggedInUser] = useState(null);
+
+  const getUserName = () => {
+    const user = firebase.auth().currentUser;
+    const unsubscribe = db
+      .collection("users")
+      .where("owner_uid", "==", user.uid)
+      .limit(1)
+      .onSnapshot((snapshot) =>
+        snapshot.docs.map((doc) => {
+          setCurrentLoggedInUser({
+            username: doc.data().username,
+            profilePicture: doc.data().profile_picture,
+          });
+        })
+      );
+    return unsubscribe;
+  };
+  useEffect(() => {
+    getUserName();
+  }, []);
+
+  const uploadPostToFirebase = (imageUrl, caption) => {
+    const unsubscribe = db
+      .collection("users")
+      .doc(firebase.auth().currentUser.email)
+      .collection("posts")
+      .add({
+        imageUrl: imageUrl,
+        user: currentLoggedInUser.username,
+        profile_picture: currentLoggedInUser.profilePicture,
+        owner_uid: firebase.auth().currentUser.uid,
+        owner_email: firebase.auth().currentUser.email,
+        caption: caption,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        likes_by_users: [],
+        comments: [],
+      })
+      .then(() => navigation.goBack());
+    return unsubscribe;
+  };
+
   return (
     <Formik
       initialValues={{ caption: "", imageUrl: "" }}
       onSubmit={(values) => {
-        console.log(values);
-        console.log("your post submitted sucessfully");
-        navigation.goBack();
+        uploadPostToFirebase(values.imageUrl, values.caption);
       }}
       validationSchema={uploadPostScheme}
       validateOnMount={true}

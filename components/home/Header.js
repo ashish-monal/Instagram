@@ -3,10 +3,20 @@ import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { firebase } from "../../firebase";
+import { async } from "@firebase/util";
+const handleSignout = async () => {
+  try {
+    firebase.auth().signOut();
+    console.log("Signout Sucessfully");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 const Header = ({ navigation }) => {
   return (
     <View style={styles.conatiner}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSignout}>
         <Image style={styles.logo} source={require("../../assets/insta.png")} />
       </TouchableOpacity>
 
